@@ -56,7 +56,7 @@ class I18N_UnicodeString
     * @var    array $_unicode
     */
     var $_unicode = array();
-    
+
     /**
     * Converts an entire array of strings to Unicode capable strings.
     *
@@ -78,10 +78,10 @@ class I18N_UnicodeString
                 $array[$key] = new I18N_UnicodeString($value, $encoding);
             }
         }
-        
+
         return $array;
     }
-    
+
     /**
     * The constructor of the class string which can receive a new string in a
     * number of formats.
@@ -95,13 +95,13 @@ class I18N_UnicodeString
     function I18N_UnicodeString($value = '', $encoding = 'UTF-8') {
         $this->setString($value, $encoding);
     }
-    
+
     /**
     * Set the string to a value passed in one of many encodings.
     *
     * You may pass the encoding as an optional second parameter which defaults
     * to UTF-8 encoding. Possible encodings are:
-    * 
+    *
     * o <i>ASCII</i> - when you pass a normal 7 bit ASCII string
     * o <i>UTF-8</i> - when you pass a UTF-8 encoded string
     * o <i>HTML</i> - when you pass a string encoded with HTML entities, such
@@ -120,7 +120,7 @@ class I18N_UnicodeString
             case 'ASCII':
             case 'UTF8':
             case 'UTF-8':
-                $this->_unicode = self::utf8ToUnicode($value);
+                $this->_unicode = I18N_UnicodeString::utf8ToUnicode($value);
                 break;
 
             case 'HTML':
@@ -136,16 +136,16 @@ class I18N_UnicodeString
                 break;
 
             default:
-                return self::raiseError('Unrecognized encoding');
+                return I18N_UnicodeString::raiseError('Unrecognized encoding');
         }
-        
+
         if (strtolower(get_class($this->_unicode)) == 'pear_error') {
             return $this->_unicode;
         }
-        
+
         return true;
     }
-    
+
     /**
     * Converts a string encoded with HTML entities into our internal
     * representation of an array of integers.
@@ -160,7 +160,7 @@ class I18N_UnicodeString
         $unicode = array();
         foreach($parts as $part) {
             $text = strstr($part, ';');
-            
+
             if (!empty($text)) {
                 $value = substr($part, 0, strpos($part, ';'));
 
@@ -187,7 +187,7 @@ class I18N_UnicodeString
 
         return $unicode;
     }
-    
+
     /**
     * Converts a UTF-8 string into our representation of an array of integers.
     *
@@ -202,7 +202,7 @@ class I18N_UnicodeString
         $unicode = array();
         $values  = array();
         $search  = 1;
-        
+
         for($count = 0, $length = strlen($string); $count < $length; $count++) {
             $value = ord($string[$count]);
 
@@ -228,13 +228,13 @@ class I18N_UnicodeString
                         $values[] = ($value - 252) << 30;
                         $search   = 6;
                     } else {
-                        return self::raiseError('Malformed UTF-8 string');
+                        return I18N_UnicodeString::raiseError('Malformed UTF-8 string');
                     }
                 } else {
                     if ($value >> 6 == 2) {
                         $values[] = $value - 128;
                     } else {
-                        return self::raiseError('Malformed UTF-8 string');
+                        return I18N_UnicodeString::raiseError('Malformed UTF-8 string');
                     }
 
                     if (count($values) == $search) {
@@ -243,7 +243,7 @@ class I18N_UnicodeString
                         for($i = 1; $i < $search; $i++) {
                             $value += ($values[$i] << ((($search - $i) - 1) * 6));
                         }
-                        
+
                         $unicode[] = $value;
 
                         $values = array();
@@ -252,7 +252,7 @@ class I18N_UnicodeString
                 }
             }
         }
-        
+
         return $unicode;
     }
 
@@ -305,7 +305,7 @@ class I18N_UnicodeString
 
         return $string;
     }
-    
+
     /**
     * Retrieves the string and returns it as a UTF-8 encoded string.
     *
@@ -321,7 +321,7 @@ class I18N_UnicodeString
 
         return $string;
     }
-    
+
     /**
     * Retrieves the string and returns it as a string encoded with HTML
     * entities.
@@ -342,7 +342,7 @@ class I18N_UnicodeString
 
         return $string;
     }
-    
+
     /**
     * Retrieve the length of the string in characters.
     *
@@ -352,7 +352,7 @@ class I18N_UnicodeString
     function length() {
         return count($this->_unicode);
     }
-    
+
     /**
     * Works exactly like PHP's substr function only it works on Unicode
     * strings.
@@ -367,26 +367,26 @@ class I18N_UnicodeString
     */
     function subString($begin, $length = null) {
         $unicode = array();
-        
+
         if (is_null($length)) {
             $length = $this->length() - $begin;
         }
-        
+
         if (($begin + $length) > $this->length()) {
-            return self::raiseError('Cannot read past end of string.');        
+            return I18N_UnicodeString::raiseError('Cannot read past end of string.');
         }
-        
+
         if ($begin > $this->length()) {
-            return self::raiseError('Beginning extends past end of string.');
+            return I18N_UnicodeString::raiseError('Beginning extends past end of string.');
         }
-        
+
         for($i = $begin, $max_length = ($begin + $length); $i < $max_length; $i++) {
             array_push($unicode, $this->_unicode[$i]);
         }
 
         return new I18N_UnicodeString($unicode, 'Unicode');
     }
-    
+
     /**
     * Works like PHP's substr_replace function.
     *
@@ -404,7 +404,7 @@ class I18N_UnicodeString
         if (is_null($length)) {
             $length = $this->length() - $start;
         }
-        
+
         $begin  = $this->subString(0, $start);
         $string = $this->subString($start, $length);
         if (!method_exists($string, 'stringReplace')) {
@@ -413,11 +413,11 @@ class I18N_UnicodeString
         } else {
 	        $string = $string->stringReplace($find, $replace);
 	        $after  = $this->subString($start + $length);
-	        
+
 	        return new I18N_UnicodeString(array_merge($begin->_unicode, $string->_unicode, $after->_unicode), 'Unicode');
         }
     }
-    
+
     /**
     * Works like PHP's str_replace function.
     *
@@ -430,18 +430,18 @@ class I18N_UnicodeString
     */
     function stringReplace(&$find, &$replace) {
         $return = new I18N_UnicodeString($this->_unicode, 'Unicode');
-        
+
         while($return->strStr($find) !== false) {
             $after = $return->strStr($find);
             $begin = $return->subString(0, $return->length() - $after->length());
             $after = $after->subString($find->length());
-            
+
             $return = new I18N_UnicodeString(array_merge($begin->_unicode, $replace->_unicode, $after->_unicode), 'Unicode');
         }
-        
+
         return $return;
     }
-    
+
     /**
     * Works like PHP's strstr function by returning the string from $find on.
     *
@@ -452,7 +452,7 @@ class I18N_UnicodeString
     function strStr(&$find) {
         $found = false;
         $after = $find->_unicode;
-        
+
         for($i = 0, $length = $this->length(); $i < $length; $i++) {
             if ($found) {
                 $after[] = $this->_unicode[$i];
@@ -461,7 +461,7 @@ class I18N_UnicodeString
                     if ($i + $find->length() > $length) {
                         break;
                     }
-                    
+
                     $found = true;
                     for($c = 1, $max = $find->length(); $c < $max; $c++) {
                         if ($this->_unicode[++$i] != $find->_unicode[$c]) {
@@ -472,7 +472,7 @@ class I18N_UnicodeString
                 }
             }
         }
-        
+
         if ($found) {
             return new I18N_UnicodeString($after, 'Unicode');
         } else {
@@ -491,21 +491,21 @@ class I18N_UnicodeString
     function indexOf($char) {
         if (!is_int($char)) {
             if (strlen($char) > 1) {
-                $char = array_shift(self::utf8ToUnicode($char));
+                $char = array_shift(I18N_UnicodeString::utf8ToUnicode($char));
             } else {
                 $char = ord($char);
             }
         }
-        
+
         for($i = 0, $length = $this->length(); $i < $length; $i++) {
             if ($this->_unicode[$i] == $char) {
                 return $i;
             }
         }
-        
+
         return -1;
     }
-    
+
     /**
     * Returns the last position of a character much like PHP's strrpos function.
     *
@@ -522,16 +522,16 @@ class I18N_UnicodeString
                 $char = ord($char);
             }
         }
-        
+
         for($i = $this->length() - 1; $i >= 0; $i--) {
             if ($this->_unicode[$i] == $char) {
                 return $i;
             }
         }
-        
-        return -1;    
+
+        return -1;
     }
-    
+
     /**
     * Determines if two Unicode strings are equal
     *
@@ -544,10 +544,10 @@ class I18N_UnicodeString
             // if they arn't even the same length no need to even check
             return false;
         }
-        
+
         return ($this->_unicode == $unicode->_unicode);
     }
-    
+
     /**
     * Appends a given Unicode string to the end of the current one.
     *
@@ -558,7 +558,7 @@ class I18N_UnicodeString
     function append(&$unicode) {
         return new I18N_UnicodeString(array_merge($this->_unicode, $unicode->_unicode), 'Unicode');
     }
-    
+
     /**
     * Used to raise a PEAR_Error.
     *
@@ -572,7 +572,7 @@ class I18N_UnicodeString
     */
     function raiseError($message) {
         include_once('PEAR.php');
-    
+
         return PEAR::raiseError($message);
     }
 }
