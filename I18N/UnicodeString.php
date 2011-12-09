@@ -3,7 +3,7 @@
 /**
 * Provides a method of storing and manipulating multibyte strings in PHP.
 *
-* PHP versions 4 and 5
+* PHP versions 5
 *
 * LICENSE: Copyright 2004-2006 John Downey. All rights reserved.
 *
@@ -40,6 +40,8 @@
 * @link      http://pear.php.net/packages/I18N_UnicodeString
 * @filesource
 */
+
+require_once 'I18N/UnicodeString/Exception.php';
 
 /**
 * Class provides a way to use and manipulate multibyte strings in PHP
@@ -99,7 +101,7 @@ class I18N_UnicodeString
      * @access public
      * @see    setString()
      */
-    function I18N_UnicodeString($value = '', $encoding = 'UTF-8')
+    function __construct($value = '', $encoding = 'UTF-8')
     {
         $this->setString($value, $encoding);
     }
@@ -422,7 +424,7 @@ class I18N_UnicodeString
      *                            $replace
      * @see    stringReplace()
      */
-    function subStringReplace(&$find, &$replace, $start, $length = null)
+    function subStringReplace($find, $replace, $start, $length = null)
     {
         if (is_null($length)) {
             $length = $this->length() - $start;
@@ -453,7 +455,7 @@ class I18N_UnicodeString
      *                            $replace
      * @see    subStringReplace()
      */
-    function stringReplace(&$find, &$replace)
+    function stringReplace($find, $replace)
     {
         $return = new I18N_UnicodeString($this->_unicode, 'Unicode');
 
@@ -479,7 +481,7 @@ class I18N_UnicodeString
      * @access public
      * @return I18N_UnicodeString The current string from $find on to the end
      */
-    function strStr(&$find)
+    function strStr($find)
     {
         $found = false;
         $after = $find->_unicode;
@@ -575,7 +577,7 @@ class I18N_UnicodeString
      * @access public
      * @return boolean True if they are equal, false otherwise.
      */
-    function equals(&$unicode)
+    function equals($unicode)
     {
         if ($this->length() != $unicode->length()) {
             // if they arn't even the same length no need to even check
@@ -593,7 +595,7 @@ class I18N_UnicodeString
      * @access public
      * @return I18N_UnicodeString The new string created from the appension.
      */
-    function append(&$unicode)
+    function append($unicode)
     {
         $data = array_merge($this->_unicode, $unicode->_unicode);
         return new I18N_UnicodeString($data, 'Unicode');
@@ -609,13 +611,11 @@ class I18N_UnicodeString
      *
      * @static
      * @access public
-     * @return PEAR_Error A PEAR error message.
+     * @throws I18N_UnicodeString_Exception
      */
     function raiseError($message)
     {
-        include_once 'PEAR.php';
-
-        return PEAR::raiseError($message);
+        throw new I18N_UnicodeString_Exception($message);
     }
 }
 ?>
