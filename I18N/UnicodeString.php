@@ -457,20 +457,20 @@ class I18N_UnicodeString
      */
     function stringReplace($find, $replace)
     {
-        $return = new I18N_UnicodeString($this->_unicode, 'Unicode');
+        $haystack	= new I18N_UnicodeString($this->_unicode, 'Unicode');
+        $return		= new I18N_UnicodeString(array(), 'Unicode');
 
-        while ($return->strStr($find) !== false) {
-            $after = $return->strStr($find);
-            $begin = $return->subString(0, $return->length() - $after->length());
-            $after = $after->subString($find->length());
+        while ($haystack->strStr($find) !== false) {
+            $after      = $haystack->strStr($find);
+            $begin      = $haystack->subString(0, $haystack->length() - $after->length());
+            $haystack   = $after->subString($find->length());
 
-            $data = array_merge($begin->_unicode, $replace->_unicode,
-                                $after->_unicode);
+            $return     = $return->append($begin)
+                                 ->append($replace)
+                                 ->append($after->subString(0, $find->length()));
+         }
 
-            $return = new I18N_UnicodeString($data, 'Unicode');
-        }
-
-        return $return;
+        return $return->append($haystack);
     }
 
     /**
