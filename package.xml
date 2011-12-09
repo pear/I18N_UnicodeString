@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
-http://pear.php.net/dtd/tasks-1.0.xsd
-http://pear.php.net/dtd/package-2.0
-http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>I18N_UnicodeString</name>
  <channel>pear.php.net</channel>
  <summary>Provides a way to work with self contained multibyte strings</summary>
- <description>Provides a method of storing and manipulating multibyte strings in PHP without using ext/mbstring. Also allows conversion between various methods of storing Unicode in 8 byte strings like UTF-8 and HTML entities.
- 
- </description>
+ <description>Provides a method of storing and manipulating multibyte strings in PHP without using ext/mbstring. Also allows conversion between various methods of storing Unicode in 8 byte strings like UTF-8 and HTML entities.</description>
  <lead>
   <name>John Downey</name>
   <user>AZTEK</user>
   <email>jdowney@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2008-10-25</date>
- <time>11:01:00</time>
+ <date>2011-12-09</date>
+ <time>20:02:39</time>
  <version>
   <release>0.2.1</release>
   <api>0.2.1</api>
@@ -26,21 +21,18 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <api>beta</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
- <notes>Fixes quite a few bugs pointed out by Lukas Feiler.
-  
+ <notes>
+Fixes quite a few bugs pointed out by Lukas Feiler.
  </notes>
  <contents>
-  <dir name="/">
-   <dir name="examples">
-    <file baseinstalldir="I18N" md5sum="a0c282a611eb85267dd18f8d5c8500dc" name="html_encoding_example.php" role="doc" />
-    <file baseinstalldir="I18N" md5sum="b98e93cc8fe74d11977cb7d4d6b7dcc2" name="stringreplace_example.php" role="doc" />
-    <file baseinstalldir="I18N" md5sum="8abad5c831197b0f041d68fe7adc8ed6" name="strstr_example.php" role="doc" />
-    <file baseinstalldir="I18N" md5sum="3b3f8cf4cc670e7d1bfac06127e33ab0" name="substringreplace_example.php" role="doc" />
-   </dir> <!-- //examples -->
-   <file baseinstalldir="I18N" md5sum="3b8560527734199137defd459f9a1252" name="I18N_UnicodeString.php" role="php">
-    <tasks:replace from="@package_version@" to="version" type="package-info" />
-   </file>
-  </dir> <!-- / -->
+  <dir baseinstalldir="/" name="/">
+   <file baseinstalldir="I18N" md5sum="21eb22dfcd2aa7843959687c09c252d9" name="examples/html_encoding_example.php" role="doc" />
+   <file baseinstalldir="I18N" md5sum="2a7b13dd6e63d115a67ea87402972daa" name="examples/stringreplace_example.php" role="doc" />
+   <file baseinstalldir="I18N" md5sum="fbe84b9eb865cac2437855c6eee494df" name="examples/strstr_example.php" role="doc" />
+   <file baseinstalldir="I18N" md5sum="be332d3ea327b2afb2ce3ab4e7afdeb2" name="examples/substringreplace_example.php" role="doc" />
+   <file baseinstalldir="/" md5sum="924bb4ae96c8f2d30990b20dc0c1cf1a" name="I18N/UnicodeString.php" role="php" />
+   <file baseinstalldir="/" md5sum="776a390d28af32d5083487e8e2881fcd" name="README" role="data" />
+  </dir>
  </contents>
  <dependencies>
   <required>
@@ -52,27 +44,8 @@ http://pear.php.net/dtd/package-2.0.xsd">
    </pearinstaller>
   </required>
  </dependencies>
- <phprelease>
-  <filelist>
-   <install as="UnicodeString.php" name="I18N_UnicodeString.php" />
-  </filelist>
- </phprelease>
+ <phprelease />
  <changelog>
-  <release>
-   <version>
-    <release>0.2.0</release>
-    <api>0.2.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2006-04-20</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-   <notes>This is a long overdue release that includes some feature requests. Notably, per request of Lukas Feiler, the method to convert from UTF-8 to an array of integers representing UCS-4 and the method to convert a single Unicode character to its UTF-8 representation have been made static. Also I included a patch from Jonathan Yavner that allows HTML entities to be inputted in &amp;#xNNNN form where NNNN is the hexadecimal notation for the Unicode character.
-    
-   </notes>
-  </release>
   <release>
    <version>
     <release>0.1.0</release>
@@ -84,8 +57,38 @@ http://pear.php.net/dtd/package-2.0.xsd">
    </stability>
    <date>2004-08-28</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-   <notes>This is the first release.
-    
+   <notes>
+This is the first release.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.0</release>
+    <api>0.2.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2006-04-20</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>
+This is a long overdue release that includes some feature requests. Notably, per request of Lukas Feiler, the method to convert from UTF-8 to an array of integers representing UCS-4 and the method to convert a single Unicode character to its UTF-8 representation have been made static. Also I included a patch from Jonathan Yavner that allows HTML entities to be inputted in &amp;#xNNNN form where NNNN is the hexadecimal notation for the Unicode character.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.1</release>
+    <api>0.2.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2011-12-09</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>
+Fixes quite a few bugs pointed out by Lukas Feiler.
    </notes>
   </release>
  </changelog>
