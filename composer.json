@@ -8,7 +8,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "I18N_UnicodeString": "./"
+            "I18N": "./"
         }
     },
     "description": "More info available on: http://pear.php.net/package/I18N_UnicodeString",
