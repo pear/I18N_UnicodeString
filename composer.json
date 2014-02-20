@@ -1,0 +1,31 @@
+{
+    "authors": [
+        {
+            "email": "jdowney@gmail.com",
+            "name": "John Downey",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "I18N": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/I18N_UnicodeString",
+    "include-path": [
+        "./"
+    ],
+    "license": "BSD",
+    "name": "pear/i18n_unicodestring",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=I18N_UnicodeString",
+        "source": "https://github.com/pear/I18N_UnicodeString"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
